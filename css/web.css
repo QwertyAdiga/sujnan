@@ -240,6 +240,11 @@ hr{
         flex-direction: column;
     }
 
+    #about-us, #chairman-msg, #courses, #facilities, #news, #stats, #contact{
+        margin-right: 0;
+        margin-left: 0;
+    }
+
     #about-us-images img, #contact, .title-sub{
         margin-bottom: 3vh;
     }
@@ -254,3 +259,4 @@ hr{
     }
 
 }
+
