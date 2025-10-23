@@ -78,7 +78,7 @@ h1 {
     margin-left: 1vw;
 }
 
-#full-header, #links-header, #about-us, #about-us-images, #course-flex, #facilities-flex, #contact, #stats-flex, #social-media, #news-flex{
+#full-header, #links-header, #about-us, #about-us-images, #course-flex, #facilities-flex, #contact, #stats-flex, #social-media, #news-flex, #location{
     display: flex;
     flex-direction: row;
 }
@@ -111,7 +111,7 @@ hr{
     background-color: yellowgreen;
 }
 
-#facilities-flex, #stats-flex, #news-flex, #extra-news{
+#facilities-flex, #stats-flex, #news-flex, #extra-news, #location{
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
@@ -212,6 +212,11 @@ hr{
     height: 40px;
 }
 
+#location-image{
+    border-radius: 10px;
+    width: 50%;
+}
+
 @keyframes breathe {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
@@ -257,6 +262,4 @@ hr{
     #news-flex {
         justify-content: center;
     }
-
 }
-
