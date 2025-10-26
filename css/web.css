@@ -118,7 +118,7 @@ hr{
 }
 
 .facilities-box{
-    height: 175px;
+    height: 185px;
     width: 200px;
     background: linear-gradient(45deg, #dbc545, #3e9b68);
     border-radius: 5%;
@@ -251,6 +251,11 @@ hr{
 
     #contact-flex{
         width: 100%;
+    }
+
+    hr{
+        display: none;
+        width: 0;
     }
 }
 
