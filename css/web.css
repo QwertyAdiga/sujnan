@@ -36,7 +36,7 @@ a {
     transition: transform 0.1s ease-in-out;
 }
 
-a:hover {
+a:hover, .show-more-btn:hover{
     transform: translateY(-5px);
 }
 
@@ -111,14 +111,14 @@ hr{
     background-color: yellowgreen;
 }
 
-#facilities-flex, #stats-flex, #news-flex, #extra-news, #location{
+#facilities-flex, #stats-flex, #news-flex, #location{
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
 }
 
 .facilities-box{
-    height: 150px;
+    height: 175px;
     width: 200px;
     background: linear-gradient(45deg, #dbc545, #3e9b68);
     border-radius: 5%;
@@ -126,12 +126,14 @@ hr{
     margin-right: 1vw;
     margin-bottom: 2vh;
     transition: all 0.5s ease;
-    animation: breathe 4s ease-in-out infinite;
 }
 
 .facilities-box:hover {
-    transform: scale(1.05);
     background: linear-gradient(135deg, #4bc079, #f3d93a);
+}
+
+.facilities-box.hidden, .news-link.hidden {
+    display: none;
 }
 
 .stat-number {
@@ -170,11 +172,7 @@ hr{
     padding: 10px;
 }
 
-#extra-news {
-    display: none;
-}
-
-#show-more-btn {
+.show-more-btn{
     background: linear-gradient(45deg, #2E8B57, #ebd557);
     border: none;
     padding: 10px 20px;
@@ -184,12 +182,9 @@ hr{
     transition: all 0.3s ease;
 }
 
-#show-more-btn:hover {
-    transform: translateY(-5px);
-}
-
-#more-btn-container {
+.more-btn-container {
     text-align: center;
+    margin-top: 2vh;
 }
 
 #contact{
@@ -202,6 +197,7 @@ hr{
 
 #contact-flex{
     width: 50%;
+    margin-right: 3vw;
 }
 
 #social-media div{
@@ -217,9 +213,10 @@ hr{
     width: 50%;
 }
 
-@keyframes breathe {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
+@media screen and (max-width: 1500px) {
+    h1 {
+        font-size: 30px;
+    }
 }
 
 @media screen and (max-width: 1250px) {
@@ -230,12 +227,6 @@ hr{
 
     .stat-box{
         margin-bottom: 4vh;
-    }
-}
-
-@media screen and (max-width: 1500px) {
-    h1 {
-        font-size: 30px;
     }
 }
 
@@ -250,16 +241,68 @@ hr{
         margin-left: 0;
     }
 
-    #about-us-images img, #contact, .title-sub{
+    #about-us-images img, #contact, .title-sub, #contact-flex{
         margin-bottom: 3vh;
     }
 
-    #contact-flex {
-        margin-bottom: 3vh;
+    #location-image {
+        width: 70%;
+    }
+
+    #contact-flex{
         width: 100%;
     }
+}
 
-    #news-flex {
-        justify-content: center;
+#hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    position: fixed;
+    right: 6vw;
+    top: 2vh; 
+}
+
+#hamburger span {
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(180deg, #2E8B57, #ebd557);
+}
+
+@media screen and (max-width: 650px) {
+    #hamburger {
+        display: flex;
+    }
+
+    #links-header {
+        position: fixed;
+        flex-direction: column;
+        right: -100%;
+        left: auto;
+        top: 7vh;
+        width: 70vw;
+        height: 45vh;
+        background: linear-gradient(180deg, #2E8B57, #ebd557);
+        border-radius: 10px;
+        transition: right 0.3s ease;
+    }
+
+    #links-header.active {
+        right: 15vw;
+    }
+
+    #links-header div {
+        padding: 10px;
+        text-align: center;
+        border-bottom: 2px solid rgba(1, 69, 1, 0.2);
+    }
+
+    h1{
+        margin-top: 3vh;
     }
 }
