@@ -1,11 +1,11 @@
 const teachersData = [
-  { name: "Lokesh", subject: "Physics", image: "assets/teachers/lokesh.JPG" },
-  { name: "Charishma", subject: "Chemistry", image: "assets/teachers/charishma.jpg" },
-  { name: "Sandesh", subject: "Mathematics", image: "assets/teachers/sandesh.jpeg" },
-  { name: "Lakshmi", subject: "Biology", image: "assets/teachers/lakshmi.JPG" },
-  { name: "Sathyaprakash", subject: "Chemistry", image: "assets/teachers/sathyaprakash.jpeg" },
-  { name: "Ranjan", subject: "Physics", image: "assets/teachers/ranjan.jpeg" },
-  { name: "Ragini", subject: "Zoology", image: "assets/teachers/ragini.jpeg" },
+  { name: "Lokesh", subject: "Physics", image: "assets/teachers/lokesh.webp" },
+  { name: "Charishma", subject: "Chemistry", image: "assets/teachers/charishma.webp" },
+  { name: "Sandesh", subject: "Mathematics", image: "assets/teachers/sandesh.webp" },
+  { name: "Lakshmi", subject: "Biology", image: "assets/teachers/lakshmi.webp" },
+  { name: "Sathyaprakash", subject: "Chemistry", image: "assets/teachers/sathyaprakash.webp" },
+  { name: "Ranjan", subject: "Physics", image: "assets/teachers/ranjan.webp" },
+  { name: "Ragini", subject: "Zoology", image: "assets/teachers/ragini.webp" },
 ];
 
 const newsData = [
@@ -391,4 +391,5 @@ document.addEventListener('click', function(event) {
     navLinks.classList.remove('active');
     hamburger.classList.remove('active');
   }
+
 });
