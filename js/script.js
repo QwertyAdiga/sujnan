@@ -78,43 +78,35 @@ const facilitiesData = [
   "Laundry services, housekeeping for hostel students. Evening snacks and dining facilities with nutritious food for hostelites"
 ];
 
-let showAllTeachers = false;
-let showAllNews = false;
-let showAllFacilities = false;
+var showAllTeachers   = false;
+var showAllNews       = false;
+var showAllFacilities = false;
 
 document.addEventListener('DOMContentLoaded', function() {
   initializeTeachers();
   initializeNews();
   initializeFacilities();
   initializeStatsObserver();
-  
+  initializeVideo();
   window.addEventListener('scroll', handleScroll);
 });
 
 function scrollToSection(sectionId) {
-  const element = document.getElementById(sectionId);
-  
+  var element = document.getElementById(sectionId);
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' });
-    
-    const navLinks = document.getElementById('navLinks');
-    const hamburger = document.getElementById('hamburger');
-    navLinks.classList.remove('active');
-    hamburger.classList.remove('active');
+    document.getElementById('navLinks').classList.remove('active');
+    document.getElementById('hamburger').classList.remove('active');
   }
 }
 
 function toggleMenu() {
-  const navLinks = document.getElementById('navLinks');
-  const hamburger = document.getElementById('hamburger');
-  
-  navLinks.classList.toggle('active');
-  hamburger.classList.toggle('active');
+  document.getElementById('navLinks').classList.toggle('active');
+  document.getElementById('hamburger').classList.toggle('active');
 }
 
 function handleScroll() {
-  const navbar = document.getElementById('navbar');
-  
+  var navbar = document.getElementById('navbar');
   if (window.scrollY > 50) {
     navbar.classList.add('scrolled');
   } else {
@@ -122,42 +114,43 @@ function handleScroll() {
   }
 }
 
+document.addEventListener('click', function(event) {
+  var navLinks = document.getElementById('navLinks');
+  var hamburger = document.getElementById('hamburger');
+  if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+    navLinks.classList.remove('active');
+    hamburger.classList.remove('active');
+  }
+});
+
 function initializeStatsObserver() {
-  const statsSection = document.getElementById('stats');
-  let hasAnimated = false;
-  
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
+  var statsSection = document.getElementById('stats');
+  var hasAnimated  = false;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
       if (entry.isIntersecting && !hasAnimated) {
         startCounterAnimations();
         hasAnimated = true;
       }
     });
-  }, {
-    threshold: 0.3
-  });
-  
-  if (statsSection) {
-    observer.observe(statsSection);
-  }
+  }, { threshold: 0.3 });
+
+  if (statsSection) { observer.observe(statsSection); }
 }
 
 function startCounterAnimations() {
-  const statNumbers = document.querySelectorAll('.stat-number');
-  
-  statNumbers.forEach(counter => {
-    const target = parseInt(counter.getAttribute('data-target'));
-    const increment = Math.ceil(target / 200);
+  document.querySelectorAll('.stat-number').forEach(function(counter) {
+    var target    = parseInt(counter.getAttribute('data-target'));
+    var increment = Math.ceil(target / 200);
     animateCounter(counter, target, increment);
   });
 }
 
 function animateCounter(element, target, increment) {
-  let current = 0;
-  
-  const timer = setInterval(() => {
+  var current = 0;
+  var timer = setInterval(function() {
     current += increment;
-    
     if (current >= target) {
       element.textContent = target + '+';
       clearInterval(timer);
@@ -167,52 +160,49 @@ function animateCounter(element, target, increment) {
   }, 20);
 }
 
+
 function initializeTeachers() {
-  const grid = document.getElementById('teachersGrid');
-  const showMoreBtn = document.getElementById('teachersShowMore');
-  
+  var grid       = document.getElementById('teachersGrid');
+  var showMoreBtn = document.getElementById('teachersShowMore');
+
   grid.innerHTML = '';
-  
-  teachersData.forEach((teacher, index) => {
-    const card = createTeacherCard(teacher);
-    
-    if (index >= 3) {
-      card.classList.add('hidden');
-    }
-    
+
+  teachersData.forEach(function(teacher, index) {
+    var card = createTeacherCard(teacher);
+    if (index >= 3) { card.classList.add('hidden'); }
     grid.appendChild(card);
   });
-  
-  if (teachersData.length > 3) {
-    showMoreBtn.style.display = 'block';
-  }
+
+  if (teachersData.length > 3) { showMoreBtn.style.display = 'block'; }
+
+  document.getElementById('teachersButtonText').textContent =
+    'Show More (' + (teachersData.length - 3) + ' more)';
 }
 
 function createTeacherCard(teacher) {
-  const card = document.createElement('div');
+  var card = document.createElement('div');
   card.className = 'teacher-card';
-  
-  card.innerHTML = `
-    <div class="teacher-image-container">
-      <img src="${teacher.image}" alt="${teacher.name}" class="teacher-image"
-           onerror="this.style.display='none'; this.parentElement.querySelector('.teacher-placeholder').style.display='flex';">
-      <div class="teacher-placeholder" style="display:none;">Faculty</div>
-    </div>
-    <div class="teacher-info">
-      <h3 class="teacher-name">${teacher.name}</h3>
-      <p class="teacher-subject">${teacher.subject}</p>
-    </div>
-  `;
-  
+
+  card.innerHTML =
+    '<div class="teacher-image-container">' +
+      '<img src="' + teacher.image + '" alt="' + teacher.name + '" class="teacher-image"' +
+        ' onerror="this.style.display=\'none\'">' +
+      '<div class="teacher-placeholder">Faculty</div>' +
+    '</div>' +
+    '<div class="teacher-info">' +
+      '<h3 class="teacher-name">' + teacher.name + '</h3>' +
+      '<p class="teacher-subject">' + teacher.subject + '</p>' +
+    '</div>';
+
   return card;
 }
 
 function toggleTeachers() {
   showAllTeachers = !showAllTeachers;
-  const cards = document.querySelectorAll('.teacher-card');
-  const buttonText = document.getElementById('teachersButtonText');
-  
-  cards.forEach((card, index) => {
+  var cards      = document.querySelectorAll('.teacher-card');
+  var buttonText = document.getElementById('teachersButtonText');
+
+  cards.forEach(function(card, index) {
     if (index >= 3) {
       if (showAllTeachers) {
         card.classList.remove('hidden');
@@ -221,83 +211,58 @@ function toggleTeachers() {
       }
     }
   });
-  
-  if (showAllTeachers) {
-    buttonText.textContent = 'Show Less';
-  } else {
-    buttonText.textContent = `Show More (${teachersData.length - 3} more)`;
-  }
+
+  buttonText.textContent = showAllTeachers
+    ? 'Show Less'
+    : 'Show More (' + (teachersData.length - 3) + ' more)';
 }
 
 function initializeNews() {
-  const grid = document.getElementById('newsGrid');
-  const showMoreBtn = document.getElementById('newsShowMore');
-  
+  var grid       = document.getElementById('newsGrid');
+  var showMoreBtn = document.getElementById('newsShowMore');
+
   grid.innerHTML = '';
-  
-  newsData.forEach((news, index) => {
-    const card = createNewsCard(news);
-    
-    if (index >= 3) {
-      card.classList.add('hidden');
-    }
-    
+
+  newsData.forEach(function(news, index) {
+    var card = createNewsCard(news);
+    if (index >= 3) { card.classList.add('hidden'); }
     grid.appendChild(card);
   });
-  
-  if (newsData.length > 3) {
-    showMoreBtn.style.display = 'block';
-  }
-  
+
+  if (newsData.length > 3) { showMoreBtn.style.display = 'block'; }
+
+  document.getElementById('newsButtonText').textContent =
+    'Show More (' + (newsData.length - 3) + ' more)';
+
   updateNewsCentering();
 }
 
 function createNewsCard(news) {
-  const card = document.createElement('a');
-  card.href = news.link;
+  var card = document.createElement('a');
+  card.href   = news.link;
   card.target = '_blank';
-  card.rel = 'noopener noreferrer';
+  card.rel    = 'noopener noreferrer';
   card.className = 'news-card';
-  
-  card.innerHTML = `
-    <div class="news-image-container">
-      <img src="${news.image}" alt="${news.title}" class="news-image">
-      <div class="news-image-overlay"></div>
-    </div>
-    <div class="news-content">
-      <h3 class="news-title">${news.title}</h3>
-      <p class="news-description">${news.description}</p>
-    </div>
-  `;
-  
-  return card;
-}
 
-function updateNewsCentering() {
-  const cards = document.querySelectorAll('.news-card');
-  
-  // Remove any previous centering classes
-  cards.forEach(card => {
-    card.classList.remove('news-card-centered');
-  });
-  
-  // Count visible cards
-  const visibleCards = Array.from(cards).filter(c => !c.classList.contains('hidden'));
-  const count = visibleCards.length;
-  const remainder = count % 3;
-  
-  // If the last row has only 1 card, center it in column 2
-  if (remainder === 1) {
-    visibleCards[count - 1].classList.add('news-card-centered');
-  }
+  card.innerHTML =
+    '<div class="news-image-container">' +
+      '<img src="' + news.image + '" alt="' + news.title + '" class="news-image">' +
+      '<div class="news-image-overlay"></div>' +
+    '</div>' +
+    '<div class="news-content">' +
+      '<h3 class="news-title">' + news.title + '</h3>' +
+      '<p class="news-description">' + news.description + '</p>' +
+    '</div>';
+
+  return card;
 }
 
 function toggleNews() {
   showAllNews = !showAllNews;
-  const cards = document.querySelectorAll('.news-card');
-  const buttonText = document.getElementById('newsButtonText');
-  
-  cards.forEach((card, index) => {
+  var cards      = document.querySelectorAll('.news-card');
+  var buttonText = document.getElementById('newsButtonText');
+
+  cards.forEach(function(card, index) {
     if (index >= 3) {
       if (showAllNews) {
         card.classList.remove('hidden');
@@ -306,58 +271,65 @@ function toggleNews() {
       }
     }
   });
-  
-  if (showAllNews) {
-    buttonText.textContent = 'Show Less';
-  } else {
-    buttonText.textContent = `Show More (${newsData.length - 3} more)`;
-  }
-  
+
+  buttonText.textContent = showAllNews
+    ? 'Show Less'
+    : 'Show More (' + (newsData.length - 3) + ' more)';
+
   updateNewsCentering();
 }
 
-function initializeFacilities() {
-  const grid = document.getElementById('facilitiesGrid');
-  const showMoreBtn = document.getElementById('facilitiesShowMore');
-  
-  grid.innerHTML = '';
-  
-  facilitiesData.forEach((facility, index) => {
-    const card = createFacilityCard(facility);
-    
-    if (index >= 3) {
-      card.classList.add('hidden');
-    }
-    
-    if (index === 2 && facilitiesData.length > 3) {
-      card.classList.add('third-item-centered');
-    }
-    
-    grid.appendChild(card);
+function updateNewsCentering() {
+  var allCards    = document.querySelectorAll('.news-card');
+  var visibleCards = [];
+
+  allCards.forEach(function(card) {
+    card.classList.remove('news-card-centered');
+    if (!card.classList.contains('hidden')) { visibleCards.push(card); }
   });
-  
-  if (facilitiesData.length > 3) {
-    showMoreBtn.style.display = 'block';
+
+  var count     = visibleCards.length;
+  var remainder = count % 3;
+
+  if (remainder === 1) {
+    visibleCards[count - 1].classList.add('news-card-centered');
   }
 }
 
+
+function initializeFacilities() {
+  var grid       = document.getElementById('facilitiesGrid');
+  var showMoreBtn = document.getElementById('facilitiesShowMore');
+
+  grid.innerHTML = '';
+
+  facilitiesData.forEach(function(facility, index) {
+    var card = createFacilityCard(facility);
+    if (index >= 3) { card.classList.add('hidden'); }
+    if (index === 2 && facilitiesData.length > 3) {
+      card.classList.add('third-item-centered');
+    }
+    grid.appendChild(card);
+  });
+
+  if (facilitiesData.length > 3) { showMoreBtn.style.display = 'block'; }
+
+  document.getElementById('facilitiesButtonText').textContent =
+    'Show More (' + (facilitiesData.length - 3) + ' more)';
+}
+
 function createFacilityCard(facility) {
-  const card = document.createElement('div');
+  var card = document.createElement('div');
   card.className = 'facility-card';
-  
-  card.innerHTML = `
-    <p class="facility-text">${facility}</p>
-  `;
-  
+  card.innerHTML = '<p class="facility-text">' + facility + '</p>';
   return card;
 }
 
 function toggleFacilities() {
   showAllFacilities = !showAllFacilities;
-  const cards = document.querySelectorAll('.facility-card');
-  const buttonText = document.getElementById('facilitiesButtonText');
-  
-  // Fix: handle card 2 centering OUTSIDE the index >= 3 gate
+  var cards      = document.querySelectorAll('.facility-card');
+  var buttonText = document.getElementById('facilitiesButtonText');
+
   if (cards[2]) {
     if (showAllFacilities) {
       cards[2].classList.remove('third-item-centered');
@@ -365,8 +337,8 @@ function toggleFacilities() {
       cards[2].classList.add('third-item-centered');
     }
   }
-  
-  cards.forEach((card, index) => {
+
+  cards.forEach(function(card, index) {
     if (index >= 3) {
       if (showAllFacilities) {
         card.classList.remove('hidden');
@@ -375,21 +347,139 @@ function toggleFacilities() {
       }
     }
   });
-  
-  if (showAllFacilities) {
-    buttonText.textContent = 'Show Less';
-  } else {
-    buttonText.textContent = `Show More (${facilitiesData.length - 3} more)`;
-  }
+
+  buttonText.textContent = showAllFacilities
+    ? 'Show Less'
+    : 'Show More (' + (facilitiesData.length - 3) + ' more)';
 }
 
-document.addEventListener('click', function(event) {
-  const navLinks = document.getElementById('navLinks');
-  const hamburger = document.getElementById('hamburger');
-  
-  if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
-    navLinks.classList.remove('active');
-    hamburger.classList.remove('active');
+function initializeVideo() {
+  var video     = document.getElementById('collegeVideo');
+  var wrapper   = document.getElementById('videoWrapper');
+  var playBtn   = document.getElementById('vcPlayBtn');
+  var muteBtn   = document.getElementById('vcMuteBtn');
+  var volSlider = document.getElementById('vcVolume');
+  var volLabel  = document.getElementById('vcVolLabel');
+  var bigPlay   = document.getElementById('vcBigPlay');
+  var seekBar   = document.getElementById('vcSeekBar');
+  var timeLabel = document.getElementById('vcTime');
+
+  if (!video || !wrapper) { return; }
+
+  video.volume = 0.5;
+  video.muted  = false;
+  updateVolFill(50);
+
+  function updateVolFill(pct) {
+    volSlider.style.setProperty('--vol-pct', pct + '%');
   }
 
-});
+  function updateSeekFill(pct) {
+    seekBar.style.setProperty('--seek-pct', pct + '%');
+  }
+
+  function formatTime(secs) {
+    if (!secs || isNaN(secs)) return '0:00';
+    var m = Math.floor(secs / 60);
+    var s = Math.floor(secs % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function updateTimeLabel() {
+    var cur = video.currentTime  || 0;
+    var dur = video.duration     || 0;
+    if (timeLabel) {
+      timeLabel.textContent = formatTime(cur) + ' / ' + formatTime(dur);
+    }
+  }
+
+  function setPlaying(on) { wrapper.classList.toggle('playing', on); }
+  function setMuted(on)   { wrapper.classList.toggle('muted',   on); }
+
+  playBtn.addEventListener('click', function() {
+    if (video.paused) { video.play(); } else { video.pause(); }
+  });
+
+  bigPlay.addEventListener('click', function() { video.play(); });
+
+  muteBtn.addEventListener('click', function() {
+    video.muted = !video.muted;
+  });
+
+  volSlider.addEventListener('input', function() {
+    var pct      = parseInt(volSlider.value, 10);
+    video.volume = pct / 100;
+    video.muted  = (pct === 0);
+    volLabel.textContent = pct + '%';
+    updateVolFill(pct);
+  });
+
+  var isSeeking = false;
+
+  seekBar.addEventListener('mousedown', function() { isSeeking = true; });
+  seekBar.addEventListener('touchstart', function() { isSeeking = true; });
+
+  seekBar.addEventListener('input', function() {
+    var pct = parseFloat(seekBar.value);
+    var dur = video.duration;
+    if (dur && !isNaN(dur)) {
+      video.currentTime = (pct / 100) * dur;
+    }
+    updateSeekFill(pct);
+    updateTimeLabel();
+  });
+
+  seekBar.addEventListener('change', function() { isSeeking = false; });
+  seekBar.addEventListener('mouseup',   function() { isSeeking = false; });
+  seekBar.addEventListener('touchend',  function() { isSeeking = false; });
+
+  video.addEventListener('play', function() {
+    setPlaying(true);
+    bigPlay.classList.add('hidden');
+  });
+
+  video.addEventListener('pause', function() {
+    setPlaying(false);
+  });
+
+  video.addEventListener('ended', function() {
+    setPlaying(false);
+    bigPlay.classList.remove('hidden');
+    if (seekBar) { seekBar.value = 100; updateSeekFill(100); }
+  });
+
+  video.addEventListener('volumechange', function() {
+    var pct = video.muted ? 0 : Math.round(video.volume * 100);
+    volSlider.value      = pct;
+    volLabel.textContent = pct + '%';
+    updateVolFill(pct);
+    setMuted(video.muted || pct === 0);
+  });
+
+  video.addEventListener('timeupdate', function() {
+    if (isSeeking) return;
+    var dur = video.duration;
+    if (dur && !isNaN(dur)) {
+      var pct = (video.currentTime / dur) * 100;
+      seekBar.value = pct;
+      updateSeekFill(pct);
+    }
+    updateTimeLabel();
+  });
+
+  video.addEventListener('loadedmetadata', function() {
+    updateTimeLabel();
+  });
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        video.play().catch(function() {});
+      } else {
+        if (!video.paused) { video.pause(); }
+      }
+    });
+  }, { threshold: 0.25 });
+
+  observer.observe(video);
+}
